@@ -1,0 +1,59 @@
+<div class="row text-center mt-5" *ngIf="loading">
+  <app-loader></app-loader>
+</div>
+
+<div class="container-fluid">
+  <div class="row" *ngIf="!loading">
+    <div class="col-12 text-center">
+      <h1 class="display-5 fw-bold text-primary"><i class="fa-solid fa-user"></i> 
+        {{ bankUser?.firstName }} {{ bankUser?.lastName }}</h1>
+        <a [routerLink]="['/account-form', bankUser?.userAccountNumber]">
+          <i class="fa-solid fa-pen-to-square mb-2" style="cursor: pointer;"></i>
+        </a>
+    </div>
+    <div class="col-12">
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">User Account Number</th>
+            <th scope="col">{{ bankUser?.userAccountNumber }}</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr>
+            <th>First Name</th>
+            <td>{{ bankUser?.firstName }}</td>
+          </tr>
+          <tr>
+            <th>Last Name</th>
+            <td>{{ bankUser?.lastName }}</td>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <td>{{ bankUser?.email }}</td>
+          </tr>
+          <tr>
+            <th>Address</th>
+            <td>{{ bankUser?.address }}</td>
+          </tr>
+          <tr>
+            <th>Birth date</th>
+            <td>{{ bankUser?.birthDate }}</td>
+          </tr>
+          <tr>
+            <th>City</th>
+            <td>{{ bankUser?.city }}</td>
+          </tr>
+          <tr>
+            <th>Country</th>
+            <td>{{ bankUser?.country }}</td>
+          </tr>
+          <tr>
+            <th>Job</th>
+            <td>{{ bankUser?.job }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

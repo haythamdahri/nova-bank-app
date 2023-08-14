@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1 class="display-3 fw-bold text-primary">Bank User Form</h1>
+            <a *ngIf="bankUser" [routerLink]="['/accounts', bankUser!.userAccountNumber]">
+                Go to client dashboard <i class="fa-brands fa-google-play"></i>
+            </a>
+        </div>
+
+        <div *ngIf="alert" class="{{'mx-auto fw-bold col-8 alert alert-' + alert!.type}}" role="alert">
+            {{ alert!.message }}
+        </div>
+
+        <hr class="text-primary" />
+        <div class="col-9 mx-auto">
+            <form [formGroup]="formGroup" (submit)="onBankUserSave()">
+                <div class="mb-3 row">
+                    <label for="firstName" class="col-sm-2 col-form-label fw-bold">First Name: </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="firstName" formControlName="firstName"
+                            placeholder="John">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="lastName" class="col-sm-2 col-form-label fw-bold">Last Name: </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="lastName" formControlName="lastName"
+                            placeholder="Doe">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="email" class="col-sm-2 col-form-label fw-bold">Email: </label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="email" formControlName="email"
+                            placeholder="john.doe@email.me">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="address" class="col-sm-2 col-form-label fw-bold">Address: </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="address" formControlName="address"
+                            placeholder="13 Route de saclay ...">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="birthDate" class="col-sm-2 col-form-label fw-bold">Birth Date: </label>
+                    <div class="col-sm-10">
+                        <input type="date" class="form-control" id="birthDate" formControlName="birthDate"
+                            placeholder="01/01/1900">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="city" class="col-sm-2 col-form-label fw-bold">City: </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="city" formControlName="city" placeholder="Paris">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="country" class="col-sm-2 col-form-label fw-bold">Country: </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="country" formControlName="country"
+                            placeholder="France">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="job" class="col-sm-2 col-form-label fw-bold">Job: </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="job" formControlName="job" placeholder="Teacher">
+                    </div>
+                </div>
+                <div class="mb-3 row" *ngIf="!bankUser">
+                    <label for="averageIncome" class="col-sm-2 col-form-label fw-bold">Average Income: </label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="averageIncome" formControlName="averageIncome"
+                            placeholder="26000">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-12">
+                        <button type="submit" [disabled]="saving" class="btn btn-primary mb-3"><i class="fa-solid fa-floppy-disk"></i> 
+                            {{ bankUser ? 'Update client' : 'Create client' }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

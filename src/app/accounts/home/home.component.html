@@ -1,0 +1,37 @@
+<main class="d-flex flex-nowrap" id="nav">
+  <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+    <a routerLink="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <svg class="bi pe-none me-2" width="40" height="32">
+        <use xlink:href="#bootstrap" />
+      </svg>
+      <span class="fs-4">Nova Bank</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li>
+        <a [routerLink]="['.']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" aria-current="page">
+          <strong><i class="fa-solid fa-user"></i> Client:</strong> {{ bankUser?.firstName }} {{ bankUser?.lastName }} 
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['checking-accounts']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link text-white">
+          <i class="fa-solid fa-file-invoice"></i> Checking Accounts
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['saving-accounts']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link text-white">
+          <i class="fa-solid fa-piggy-bank"></i> Saving Accounts
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['transactions']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link text-white">
+          <i class="fa-solid fa-money-bill"></i> Transactions
+        </a>
+      </li>
+    </ul>
+    <hr>
+  </div>
+  <div class="container-fluid mt-2 col-10 align-items-center justify-content-center ">
+    <router-outlet></router-outlet>
+  </div>
+</main>

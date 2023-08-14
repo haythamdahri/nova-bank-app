@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-12">
+    <div class="col-12 text-center">
+      <h1 class="display-5 fw-bold text-primary">
+        <i class="fa-solid fa-piggy-bank"></i> Saving Accounts
+      </h1>
+    </div>
+    <div class="row text-center mt-5" *ngIf="loading">
+        <app-loader></app-loader>
+    </div>
+    <div class="alert alert-primary" role="alert" *ngIf="!loading && savingAccounts?.length == 0">
+      <i class="fa-solid fa-exclamation"></i> No saving account
+    </div>
+    <div class="col-12" *ngFor="let savingAccount of savingAccounts">
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Account Number</th>
+            <th scope="col">
+              {{ savingAccount?.accountNumber }}
+              <button (click)="onCloseAccount(savingAccount.accountNumber)" type="button"
+                class="btn btn-outline-danger btn-sm">Close account <i class="fa-solid fa-trash"></i></button>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr>
+            <th>Available Amount</th>
+            <td>{{ savingAccount?.availableAmount | currency:'EUR':'symbol' }}</td>
+          </tr>
+          <tr>
+            <th>Accounted Amount</th>
+            <td>{{ savingAccount?.accountedAmount | currency:'EUR':'symbol' }}</td>
+          </tr>
+          <tr>
+            <th>Interest Rate</th>
+            <td>{{ savingAccount?.interestRate }}</td>
+          </tr>
+          <tr>
+            <th>Risk</th>
+            <td>{{ savingAccount?.riskLevel }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

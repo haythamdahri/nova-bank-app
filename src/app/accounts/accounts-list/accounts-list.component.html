@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-12 text-center">
+      <h1 class="display-3 fw-bold text-primary">Bank Users</h1>
+      <a routerLink="/account-form">
+        <button type="button" class="btn btn-outline-primary btn-sm">
+          Create user account <i class="fa-solid fa-plus"></i>
+        </button>
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="mb-3">
+      <input type="text" [(ngModel)]="search" (change)="onSearch()" class="form-control" id="searchInput"
+        placeholder="Name, email, user account number ....">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-6 mb-3" *ngFor="let bankUser of bankUsers">
+      <div class="card">
+        <div class="card-header">
+          <b>{{ bankUser.firstName }} {{ bankUser.lastName }}</b> 
+          <a [routerLink]="['/account-form', bankUser.userAccountNumber]" class="ml-5">
+            <i class="fa-solid fa-pen-to-square" style="cursor: pointer;"></i>
+          </a>
+        </div>
+        <div class="card-body">
+          <p><b>User ID:</b> {{ bankUser.userAccountNumber }}</p>
+          <a [routerLink]="'/accounts/' + bankUser.userAccountNumber" class="btn btn-primary fw-bold">
+            <i class="fa-regular fa-eye"></i> Check accounts
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
