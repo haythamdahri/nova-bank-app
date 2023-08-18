@@ -24,12 +24,14 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
   transactionsSubscription!: Subscription;
   checkingAccountsSubscription!: Subscription;
   savingsAccountsSubscription!: Subscription;
+  transactionOperationsSubscription!: Subscription;
   paramsSubscription!: Subscription;
   bankUser?: BankUser;
   transactionsPage!: Page<Transaction>;
   loading: boolean = false;
   checkingAccounts: CheckingAccount[] = [];
   savingAccounts: SavingAccount[] = [];
+  transactionOperations?: string[] = [];
   selectedAccount!: SelectedAccount;
   transactionsSearchForm!: FormGroup;
 
@@ -54,6 +56,7 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
       }
     )
     this.initForms();
+    this.fetchTransactionsOperations();
   }
 
   ngOnDestroy(): void {
@@ -68,7 +71,8 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
       {
         accountNumber: new FormControl('', [Validators.required]),
         startDateTime: new FormControl(),
-        endDateTime: new FormControl()
+        endDateTime: new FormControl(),
+        operation: new FormControl('')
       }
     );
     this.transactionsSearchForm.controls['accountNumber'].valueChanges.subscribe(
@@ -100,7 +104,7 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
 
   onSearchTransactions(): void {
     if (this.transactionsSearchForm.invalid) {
-      alert("Invalid search");
+      alert("Please make sure an account is selected");
       return;
     }
     this.fetchTransactionsPage();
@@ -160,6 +164,12 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
       }
     }
     return undefined;
+  }
+
+  private fetchTransactionsOperations(): void {
+    this.transactionOperationsSubscription = this.transactionsService.getTransactionsOperations().subscribe(
+      (operations: string[]) => this.transactionOperations = operations
+    );
   }
 
 }

@@ -23,6 +23,12 @@
             </option>
           </ng-container>
         </select>
+        <select formControlName="operation" class="form-select mt-3">
+          <option value="">Select an operation</option>
+          <ng-container *ngFor="let operation of transactionOperations">
+            <option [value]="operation">{{ operation }}</option>
+          </ng-container>
+        </select>
         <div class="mt-3 row">
           <div class="col-auto input-group">
             <span class="input-group-text">Start Date</span>

@@ -27,6 +27,7 @@ export class CheckingAccountsComponent implements OnInit, OnDestroy {
     private checkingAccountsService: CheckingAccountsService,
     private activatedRoute: ActivatedRoute  
   ) {}
+
   ngOnInit(): void {
     this.paramsSubscription = this.activatedRoute.parent!.params.subscribe(
       (params) => {
@@ -44,6 +45,7 @@ export class CheckingAccountsComponent implements OnInit, OnDestroy {
       }
     )
   }
+
   ngOnDestroy(): void {
     this.bankUserSubscription?.unsubscribe();
     this.checkingAccountsSubscription?.unsubscribe();

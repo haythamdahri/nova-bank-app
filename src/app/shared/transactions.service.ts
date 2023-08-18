@@ -12,6 +12,10 @@ export class TransactionsService {
 
   constructor(private httpClient: HttpClient) { }
 
+  getTransactionsOperations(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`/api/v1/transactions-config/operations`);
+  }
+
   getCheckingAccountTransactions(
     accountNumber: string, page: number = 0, size: number = 40, sort: string[] = ['operationDate'], direction: string = 'DESC'
   ): Observable<Page<Transaction>> {
