@@ -18,6 +18,7 @@ export class AccountFormComponent implements OnInit, OnDestroy {
   private activatedRouteSubscription!: Subscription;
   private bankUserSubscription!: Subscription;
   private saveBankUserSubscription!: Subscription;
+  public loading: boolean = true;
   public saving: boolean = false;
   public alert?: Alert;
 
@@ -62,8 +63,11 @@ export class AccountFormComponent implements OnInit, OnDestroy {
                 }
               );
               this.formGroup.removeControl('averageIncome');
+              this.loading = false;
             }
           );
+        } else {
+          this.loading = false;
         }
       }
     )
@@ -80,7 +84,7 @@ export class AccountFormComponent implements OnInit, OnDestroy {
       console.error("Invalid user data", JSON.stringify(this.formGroup.errors));
       return;
     }
-    this.saving = true
+    this.saving = true;
     if (this.bankUser) {
       this.saveBankUserSubscription = this.bankUsersService.updateBankUser(this.formGroup.value).subscribe(
         (bankUser: BankUser) => {

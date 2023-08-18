@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, take } from 'rxjs';
 import { SavingAccount } from 'src/app/models/Saving-account';
@@ -6,6 +7,7 @@ import { BankUser } from 'src/app/models/bank-user';
 import { CheckingAccount } from 'src/app/models/checking-account';
 import { Page } from 'src/app/models/page';
 import { Transaction } from 'src/app/models/transaction';
+import { TransactionsSearch } from 'src/app/models/transactions-search';
 import { BankUsersService } from 'src/app/shared/bank-users.service';
 import { CheckingAccountsService } from 'src/app/shared/checking-accounts.service';
 import { SavingAccountsService } from 'src/app/shared/saving-accounts.service';
@@ -29,6 +31,7 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
   checkingAccounts: CheckingAccount[] = [];
   savingAccounts: SavingAccount[] = [];
   selectedAccount!: SelectedAccount;
+  transactionsSearchForm!: FormGroup;
 
   constructor(
     private bankUsersService: BankUsersService,
@@ -50,6 +53,7 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
         )
       }
     )
+    this.initForms();
   }
 
   ngOnDestroy(): void {
@@ -57,6 +61,19 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
     this.transactionsSubscription?.unsubscribe();
     this.checkingAccountsSubscription?.unsubscribe();
     this.savingsAccountsSubscription?.unsubscribe();
+  }
+
+  initForms(): void {
+    this.transactionsSearchForm = new FormGroup(
+      {
+        accountNumber: new FormControl('', [Validators.required]),
+        startDateTime: new FormControl(),
+        endDateTime: new FormControl()
+      }
+    );
+    this.transactionsSearchForm.controls['accountNumber'].valueChanges.subscribe(
+      (accountNumber) => this.onAccountSelected(accountNumber)
+    )
   }
 
   onPreviousPage(): void {
@@ -71,19 +88,22 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onAccountSelected(event: Event): void {
-    const accountNumber = (<HTMLSelectElement>event.target).value;
+  onAccountSelected(accountNumber: string): void {
     if (accountNumber == "") {
-      this.transactionsPage = new Page<Transaction>();
-      this.transactionsPage.empty = true;
-      this.loading = false;
       return;
     }
     const selectedAccount = this.findAccount(accountNumber);
     if (selectedAccount) {
       this.selectedAccount = selectedAccount;
-      this.fetchTransactionsPage();
     }
+  }
+
+  onSearchTransactions(): void {
+    if (this.transactionsSearchForm.invalid) {
+      alert("Invalid search");
+      return;
+    }
+    this.fetchTransactionsPage();
   }
 
   fetchTransactionsPage(page: number = 0): void {
@@ -91,7 +111,9 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
     this.transactionsPage = new Page<Transaction>();
     switch (this.selectedAccount?.accountType) {
       case 'checkingAccount':
-        this.transactionsSubscription = this.transactionsService.getCheckingAccountTransactions(this.selectedAccount?.accountNumber, page).subscribe(
+        this.transactionsSubscription = this.transactionsService.getCheckingAccountTransactionsBySearch(
+            this.transactionsSearchForm.value as TransactionsSearch, page
+        ).subscribe(
           (transactionsPage) => {
             this.transactionsPage = transactionsPage;
             this.loading = false;
@@ -99,7 +121,9 @@ export class TransactionsListComponent implements OnInit, OnDestroy {
         )
         break;
       case 'savingAccount':
-        this.transactionsSubscription = this.transactionsService.getSavingAccountTransactions(this.bankUser!.userAccountNumber, page).subscribe(
+        this.transactionsSubscription = this.transactionsService.getCheckingAccountTransactionsBySearch(
+          this.transactionsSearchForm.value as TransactionsSearch, page
+        ).subscribe(
           (transactionsPage) => {
             this.transactionsPage = transactionsPage;
             this.loading = false;

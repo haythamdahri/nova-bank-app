@@ -12,6 +12,7 @@ export class AccountsListComponent implements OnInit, OnDestroy {
   private bankUsersSubscription!: Subscription;
   bankUsers!: BankUser[];
   search?: string = "";
+  loading: boolean = true;
 
   constructor(private bankUsersService: BankUsersService) {}
 
@@ -25,9 +26,13 @@ export class AccountsListComponent implements OnInit, OnDestroy {
 
   private searchUsers(): void {
     this.bankUsersSubscription = this.bankUsersService.getBankUsers(this.search || "").subscribe(
-      (bankUsers) => this.bankUsers = bankUsers,
+      (bankUsers) => {
+        this.bankUsers = bankUsers;
+        this.loading = false;
+      },
       (error) => {
         alert(`Error while retrieving bank users: ${error}`);
+        this.loading = false;
       }
     );
   }
