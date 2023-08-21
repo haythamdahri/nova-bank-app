@@ -96,7 +96,7 @@
           </li>
           <li>
             <span aria-hidden="true">
-              Page {{ transactionsPage!.number }} of {{ transactionsPage!.totalPages }}
+              Page {{ transactionsPage!.number + 1 }} of {{ transactionsPage!.totalPages }}
             </span>
           </li>
           <li class="page-item" [ngClass]="{'disabled': transactionsPage!.last || loading}">

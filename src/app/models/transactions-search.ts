@@ -5,16 +5,14 @@ export class TransactionsSearch {
     public operation!: string;
 
     public static getParams = (transactionsSearch: TransactionsSearch) => {
-        const params: any= {};
-        if (transactionsSearch.startDateTime) {
-            params['startDateTime'] = transactionsSearch.startDateTime;
-        }
-        if (transactionsSearch.endDateTime) {
-            params['endDateTime'] = transactionsSearch.endDateTime;
-        }
-        if (transactionsSearch.operation) {
-            params['operation'] = transactionsSearch.operation;
-        }
-        return params;
+        const excludedProperties = ['accountNumber'];
+        return Object.entries(transactionsSearch)
+            .filter(([key]) => !excludedProperties.includes(key))
+            .reduce((params: any, [key, value]) => {
+                if (value !== undefined && value !== null && value !== "") {
+                    params[key] = value;
+                }
+                return params;
+            }, {});
     }
 }
